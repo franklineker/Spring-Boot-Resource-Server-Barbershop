@@ -1,4 +1,4 @@
-package com.drnavalhabarbershop.resourceserver.config;
+package com.drnavalhabarbershop.resourceserver.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
