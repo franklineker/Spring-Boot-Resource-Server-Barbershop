@@ -4,6 +4,7 @@ import com.drnavalhabarbershop.resourceserver.domain.Order;
 import com.drnavalhabarbershop.resourceserver.mapper.OrderMapper;
 import com.drnavalhabarbershop.resourceserver.repository.OrderRepository;
 import com.drnavalhabarbershop.resourceserver.web.dto.OrderRequest;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +33,12 @@ public class OrderService {
 
         checkOrderExixts(id);
 
+        Order currentOrder = findById(id);
+        Binary image = request.getImage() == null ? currentOrder.getImage() : request.getImage();
+
         Order order = OrderMapper.toOrder((request));
         order.setId(id);
+        order.setImage(image);
 
         return orderRepository.save(order);
     }

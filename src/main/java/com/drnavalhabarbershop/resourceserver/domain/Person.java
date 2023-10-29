@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Person {
 
-    private String cpf;
     private String name;
     private String phone;
     private String email;

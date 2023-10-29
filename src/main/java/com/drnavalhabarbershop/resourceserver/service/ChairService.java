@@ -1,9 +1,9 @@
 package com.drnavalhabarbershop.resourceserver.service;
 
-import br.com.drnavalha.web.dto.ChairRequest;
 import com.drnavalhabarbershop.resourceserver.domain.Chair;
 import com.drnavalhabarbershop.resourceserver.mapper.ChairMapper;
 import com.drnavalhabarbershop.resourceserver.repository.ChairRepository;
+import com.drnavalhabarbershop.resourceserver.web.dto.ChairRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +16,7 @@ public class ChairService {
     private ChairRepository chairRepository;
 
     public Chair save(ChairRequest request) {
+        System.out.println(request);
         return chairRepository.save(ChairMapper.toChair(request));
     }
 

@@ -23,7 +23,7 @@ public class Barber{
 
     private UserType userType;
     private String about;
-    private Integer rating;
+    private Double rating;
     private Person person;
     private Binary profilePicture;
     private LocalDateTime createdDate;

@@ -16,7 +16,6 @@ public class Chair {
 
     @Id
     private String id;
-    private String barberID;
     private String barberName;
     private String startDate;
     private String endDate;

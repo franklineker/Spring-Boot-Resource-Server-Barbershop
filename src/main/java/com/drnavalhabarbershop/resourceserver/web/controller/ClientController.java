@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
@@ -47,7 +48,9 @@ public class ClientController {
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public Client updateClient(String id, ClientRequest request) {
+    public Client updateClient(
+            @Valid @PathVariable String id,
+            @Valid @RequestBody ClientRequest request) throws Exception {
         return clientService.update(id, request);
     }
 
@@ -55,10 +58,12 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     public void updatePicture(
             @Valid @PathVariable String id,
-            @Valid @RequestParam("file") MultipartFile file) throws IOException {
+            @Valid @RequestParam(value = "file", required = false) Optional<MultipartFile> file) throws Exception {
 
         ClientRequest client = ClientMapper.toClientRequest(clientService.findClientById(id));
-        client.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+        if(file.isPresent()){
+            client.setImage(new Binary(BsonBinarySubType.BINARY, file.get().getBytes()));
+        }
 
         clientService.update(id, client);
     }

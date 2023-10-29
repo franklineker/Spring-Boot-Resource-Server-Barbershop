@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -48,7 +49,6 @@ public class OrderController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    @PreAuthorize("hasAnyAuthority('ADMIN, CLIENT, OIDC_USER")
     public List<Order> findOrders(){
         return orderService.findAll();
     }
@@ -64,10 +64,12 @@ public class OrderController {
     @ResponseStatus(value = HttpStatus.OK)
     public Order updateOrderImage(
             @Valid @PathVariable String id,
-            @Valid @RequestParam("file") MultipartFile file) throws IOException {
+            @Valid @RequestParam(value = "file", required = false) Optional<MultipartFile> file) throws Exception {
 
         OrderRequest order = OrderMapper.toOrderRequest(orderService.findById(id));
-        order.setImage(new Binary(BsonBinarySubType.BINARY,file.getBytes()));
+        if(file.isPresent()){
+            order.setImage(new Binary(BsonBinarySubType.BINARY,file.get().getBytes()));
+        }
 
         return orderService.update(id, order);
     }

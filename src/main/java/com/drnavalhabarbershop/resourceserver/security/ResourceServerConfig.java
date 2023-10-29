@@ -21,8 +21,24 @@ public class ResourceServerConfig {
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults());
+        http.csrf(csrf -> csrf.ignoringRequestMatchers(
+                "/users/**",
+                "/barbers/**",
+                "/orders/**",
+                "/clients/**",
+                "/chairs/**",
+                "/appointments/**"
+        ));
         return http
                 .authorizeHttpRequests(authorization -> authorization
+                        .requestMatchers(
+                                "/users/**",
+                                "/barbers/**",
+                                "/orders/**",
+                                "/clients/**",
+                                "/chairs/**",
+                                "/appointments/**"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.decoder(JwtDecoders.fromOidcIssuerLocation(issuerUri))))

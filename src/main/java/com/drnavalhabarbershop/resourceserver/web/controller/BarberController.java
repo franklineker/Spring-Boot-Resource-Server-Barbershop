@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/barbers")
@@ -36,12 +37,11 @@ public class BarberController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public BarberResponse findBarberById(@Valid @PathVariable String id){
+    public Barber findBarberById(@Valid @PathVariable String id){
 
         Barber barber = barberService.findById(id);
-        //barber.setProfilePicture(Base64.getEncoder().encodeToString(barber.getProfilePicture().getData()));
 
-        return BarberMapper.toBarberResponse(barber);
+        return barber;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,16 +54,18 @@ public class BarberController {
     @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public Barber updateBarber(@Valid @PathVariable String id,
-                                @Valid @RequestBody BarberRequest request) {
+                                @Valid @RequestBody BarberRequest request) throws Exception {
         return barberService.update(id, request);
     }
     @PutMapping(value = "/updatePicture/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public Barber updateBarberPicture(@Valid @PathVariable String id,
-                                      @Valid @RequestParam("file") MultipartFile file) throws IOException {
+                                      @Valid @RequestParam(value = "file", required = false) Optional<MultipartFile> file) throws Exception {
 
         BarberRequest barberRequest = BarberMapper.toBarberRequest(barberService.findById(id));
-        barberRequest.setProfilePicture(new Binary(BsonBinarySubType.BINARY,file.getBytes()));
+        if(file.isPresent()){
+            barberRequest.setProfilePicture(new Binary(BsonBinarySubType.BINARY,file.get().getBytes()));
+        }
         System.out.println(barberRequest);
 
         return barberService.update(id, barberRequest);

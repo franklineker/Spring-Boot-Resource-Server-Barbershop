@@ -13,6 +13,6 @@ public class BarberResponse {
     private Integer userType;
     private Person person;
     private String about;
-    private Integer rating;
+    private Double rating;
     private Binary profilePicture;
 }

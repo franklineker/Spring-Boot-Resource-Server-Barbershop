@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +25,12 @@ public class Appointment {
     private String barberName;
     private String orderID;
     private String orderTitle;
+
     private String date;
     private String hour;
+//    private Barber barber;
+//    private Client client;
+//    private Order order;
+//    private Date date;
 
 }
