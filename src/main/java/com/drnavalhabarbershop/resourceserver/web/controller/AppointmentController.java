@@ -1,8 +1,10 @@
 package com.drnavalhabarbershop.resourceserver.web.controller;
 
-import br.com.drnavalha.web.dto.AppointmentRequest;
+
 import com.drnavalhabarbershop.resourceserver.domain.Appointment;
 import com.drnavalhabarbershop.resourceserver.service.AppointmentService;
+import com.drnavalhabarbershop.resourceserver.service.UserService;
+import com.drnavalhabarbershop.resourceserver.web.dto.AppointmentRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ import java.util.List;
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(value = "/save")
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -37,6 +42,15 @@ public class AppointmentController {
     @ResponseStatus(value = HttpStatus.OK)
     public Appointment findAppointmentById(@Valid @PathVariable String id) {
         return appointmentService.findById(id);
+    }
+
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Appointment> findAppointmentByUserId(@Valid @PathVariable String id) {
+
+        List<Appointment> appointments = appointmentService.findByClientId(id);
+
+        return appointments;
     }
 
     @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,16 +1,19 @@
 package com.drnavalhabarbershop.resourceserver.service;
 
 import com.drnavalhabarbershop.resourceserver.domain.Client;
+import com.drnavalhabarbershop.resourceserver.exceptions.EmailChangeNotAllowedException;
 import com.drnavalhabarbershop.resourceserver.mapper.ClientMapper;
 import com.drnavalhabarbershop.resourceserver.repository.ClientRepository;
 import com.drnavalhabarbershop.resourceserver.web.dto.ClientRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -33,14 +36,22 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client update(String id, ClientRequest request) {
+    public Client update(String id, ClientRequest request) throws Exception{
 
         checkClientExists(id);
 
-        Client client = ClientMapper.toClient((request));
-        client.setId(id);
+        Client currentClient = findClientById(id);
+        if(!Objects.equals(request.getPerson().getEmail(), currentClient.getPerson().getEmail())) {
+            throw new EmailChangeNotAllowedException();
+        }
 
-        return clientRepository.save(client);
+        Binary image = request.getImage() == null ? currentClient.getImage() : request.getImage();
+
+        Client newClient = ClientMapper.toClient((request));
+        newClient.setId(id);
+        newClient.setImage(image);
+
+        return clientRepository.save(newClient);
     }
 
     public Client delete(String id) {

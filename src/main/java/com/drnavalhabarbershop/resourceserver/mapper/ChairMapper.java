@@ -1,7 +1,7 @@
 package com.drnavalhabarbershop.resourceserver.mapper;
 
-import br.com.drnavalha.web.dto.ChairRequest;
 import com.drnavalhabarbershop.resourceserver.domain.Chair;
+import com.drnavalhabarbershop.resourceserver.web.dto.ChairRequest;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
