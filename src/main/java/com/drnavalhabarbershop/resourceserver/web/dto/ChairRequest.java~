@@ -1,4 +1,4 @@
-package com.drnavalhabarbershop.resourceserver.web.dto;
+package br.com.drnavalha.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,8 @@
 package com.drnavalhabarbershop.resourceserver.web.controller;
 
-import br.com.drnavalha.web.dto.ChairRequest;
 import com.drnavalhabarbershop.resourceserver.domain.Chair;
 import com.drnavalhabarbershop.resourceserver.service.ChairService;
+import com.drnavalhabarbershop.resourceserver.web.dto.ChairRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

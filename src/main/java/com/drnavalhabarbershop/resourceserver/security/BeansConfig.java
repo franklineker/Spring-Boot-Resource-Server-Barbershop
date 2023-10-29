@@ -1,5 +1,6 @@
 package com.drnavalhabarbershop.resourceserver.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +11,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class BeansConfig {
+
+    @Value("${config.uris.angular-uri}")
+    private String ANGULAR_URI;
     @Bean
     public PasswordEncoder passwordEncoder()
     {
@@ -28,7 +32,7 @@ public class BeansConfig {
         cors.addAllowedHeader("*");
         cors.addAllowedMethod("*");
         cors.setAllowCredentials(true);
-        cors.addAllowedOrigin("http://localhost:4200");
+        cors.addAllowedOrigin(CorsConfiguration.ALL);
         source.registerCorsConfiguration("/**", cors);
 
         return source;

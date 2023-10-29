@@ -28,7 +28,6 @@ public class Client {
     @Convert()
     private UserType userType;
     private Binary image;
-
     private Person person;
 
 

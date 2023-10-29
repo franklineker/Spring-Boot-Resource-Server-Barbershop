@@ -7,6 +7,8 @@ import com.drnavalhabarbershop.resourceserver.web.dto.UserResponse;
 import lombok.NoArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 public class UserMapper {
 
@@ -22,6 +24,7 @@ public class UserMapper {
 
     public static User fromOauth2User(OAuth2User oAuth2User) {
         User user = User.builder()
+                .createdDateTime(LocalDateTime.now())
                 .email(oAuth2User.getAttributes().get("email").toString())
                 .fullName(oAuth2User.getAttributes().get("name").toString())
                 .firstName(oAuth2User.getAttributes().get("given_name").toString())
@@ -37,7 +40,7 @@ public class UserMapper {
                 .builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRoles().toString())
+                .roles(user.getRoles())
                 .build() : null;
     }
 }

@@ -22,6 +22,5 @@ public class BarberRequest {
     private String about;
     private Person person;
     private Integer rating;
- //   private MultipartFile file;
     private Binary profilePicture;
 }
