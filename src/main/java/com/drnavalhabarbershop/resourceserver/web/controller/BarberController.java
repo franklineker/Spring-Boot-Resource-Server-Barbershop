@@ -30,8 +30,7 @@ public class BarberController {
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Barber createBarber(@Valid @RequestBody BarberRequest request) {
-
+    public Barber createBarber(@Valid @RequestBody BarberRequest request) throws IOException {
         return barberService.save(request);
     }
 
@@ -47,7 +46,10 @@ public class BarberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<Barber> findBarbers(){
-
+        System.out.println(System.getenv("DATA_SOURCE_USERNAME"));
+        System.out.println(System.getenv("DATA_SOURCE_PASSWORD"));
+        System.out.println(System.getenv("DATA_SOURCE_URL"));
+        System.out.println(System.getenv("DATA_SOURCE_DBNAME"));
         return barberService.findAll();
     }
 

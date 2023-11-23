@@ -19,8 +19,8 @@ public class AppointmentService {
     @Autowired
     private ClientService clientService;
 
-    public Appointment save(AppointmentRequest request) {
-        return appointmentRepository.save(AppointmentMapper.toAppointment(request));
+    public Appointment save(Appointment appointment) {
+        return appointmentRepository.save(appointment);
     }
 
     public List<Appointment> findAll(){
@@ -37,7 +37,7 @@ public class AppointmentService {
 
         List<Appointment> appointments = appointmentRepository.findAll();
         List<Appointment> clientAppointments = appointments.stream().filter(appointment -> {
-           return appointment.getClientID() == clientId;
+           return appointment.getClient().getId() == clientId;
         }).collect(Collectors.toList());
 
         return clientAppointments;

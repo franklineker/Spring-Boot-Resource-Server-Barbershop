@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +20,7 @@ public class Chair {
 
     @Id
     private String id;
-    private String barberName;
-    private String startDate;
-    private String endDate;
+    private Barber barber;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

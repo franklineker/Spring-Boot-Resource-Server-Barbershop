@@ -2,8 +2,10 @@ package com.drnavalhabarbershop.resourceserver.web.controller;
 
 
 import com.drnavalhabarbershop.resourceserver.domain.Appointment;
-import com.drnavalhabarbershop.resourceserver.service.AppointmentService;
-import com.drnavalhabarbershop.resourceserver.service.UserService;
+import com.drnavalhabarbershop.resourceserver.domain.Barber;
+import com.drnavalhabarbershop.resourceserver.domain.Client;
+import com.drnavalhabarbershop.resourceserver.domain.Order;
+import com.drnavalhabarbershop.resourceserver.service.*;
 import com.drnavalhabarbershop.resourceserver.web.dto.AppointmentRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,6 +26,12 @@ import java.util.List;
 public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
+    @Autowired
+    private BarberService barberService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private UserService userService;
@@ -28,8 +39,18 @@ public class AppointmentController {
     @PostMapping(value = "/save")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Appointment createAppointment(@Valid @RequestBody AppointmentRequest request) {
+        Barber barber = barberService.findById(request.getBarberId());
+        Order order = orderService.findById(request.getOrderId());
+        Client client = clientService.findClientById(request.getClientId());
+        Date date = request.getDate();
 
-        return appointmentService.save(request);
+        Appointment appointment = new Appointment();
+        appointment.setBarber(barber);
+        appointment.setOrder(order);
+        appointment.setClient(client);
+        appointment.setDate(date);
+        appointment.setCreatedDate(LocalDateTime.now());
+        return appointmentService.save(appointment);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

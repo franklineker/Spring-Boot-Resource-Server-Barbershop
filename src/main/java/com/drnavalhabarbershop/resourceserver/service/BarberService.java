@@ -5,10 +5,14 @@ import com.drnavalhabarbershop.resourceserver.exceptions.EmailChangeNotAllowedEx
 import com.drnavalhabarbershop.resourceserver.mapper.BarberMapper;
 import com.drnavalhabarbershop.resourceserver.repository.BarberRepository;
 import com.drnavalhabarbershop.resourceserver.web.dto.BarberRequest;
+import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,7 +22,13 @@ public class BarberService {
     @Autowired
     private BarberRepository barberRepository;
 
-    public Barber save(BarberRequest request) {
+    public Barber save(BarberRequest request) throws IOException {
+
+        if(Objects.equals(request.getProfilePicture(), null)) {
+            byte[] array = Files.readAllBytes(Paths.get("src/main/resources/static/images/image-placeholder.png"));
+            Binary defaultImage = new Binary(BsonBinarySubType.BINARY, array);
+            request.setProfilePicture(defaultImage);
+        }
 
         return barberRepository.save(BarberMapper.toBarber(request));
     }

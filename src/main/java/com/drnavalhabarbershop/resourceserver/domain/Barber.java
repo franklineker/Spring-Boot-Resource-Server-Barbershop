@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.Binary;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,6 +27,7 @@ public class Barber{
     private Double rating;
     private Person person;
     private Binary profilePicture;
+    @CreatedDate()
     private LocalDateTime createdDate;
 
 }

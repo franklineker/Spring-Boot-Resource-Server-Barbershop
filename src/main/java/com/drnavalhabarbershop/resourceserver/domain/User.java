@@ -1,6 +1,7 @@
 package com.drnavalhabarbershop.resourceserver.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,7 @@ public class User implements UserDetails {
     private String fullName;
     private String firstName;
     private String lastName;
+    @CreatedDate()
     private LocalDateTime createdDateTime;
     private String pictureUrl;
     private String password;

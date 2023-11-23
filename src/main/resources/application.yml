@@ -4,9 +4,11 @@ server:
 spring:
   data:
     mongodb:
-      host: localhost
-      database: drnavalhabarbershop
-      port: 27017
+      host: ${DATA_SOURCE_URL}
+      database: ${DATA_SOURCE_DBNAME}
+      port: ${DATA_SOURCE_PORT}
+#      username: ${DATA_SOURCE_USERNAME}
+#      password: ${DATA_SOURCE_PASSWORD}
     servlet:
       multipart:
         max-file-size: 256MB
@@ -16,7 +18,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: "http://localhost:8081"
+          issuer-uri: ${JWT_URI}
 
 config:
   uris:

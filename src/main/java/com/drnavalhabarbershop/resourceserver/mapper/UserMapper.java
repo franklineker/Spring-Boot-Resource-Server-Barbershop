@@ -39,7 +39,6 @@ public class UserMapper {
         return user != null ? UserResponse
                 .builder()
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .roles(user.getRoles())
                 .build() : null;
     }

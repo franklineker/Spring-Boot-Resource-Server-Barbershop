@@ -30,7 +30,7 @@ public class ClientController {
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Client createClient(@Valid @RequestBody ClientRequest request) {
+    public Client createClient(@Valid @RequestBody ClientRequest request) throws IOException {
         return clientService.save(request);
     }
 

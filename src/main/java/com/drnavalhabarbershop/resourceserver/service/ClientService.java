@@ -6,24 +6,33 @@ import com.drnavalhabarbershop.resourceserver.mapper.ClientMapper;
 import com.drnavalhabarbershop.resourceserver.repository.ClientRepository;
 import com.drnavalhabarbershop.resourceserver.web.dto.ClientRequest;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
-@Slf4j
 public class ClientService {
     @Autowired
-    private final ClientRepository clientRepository;
-    private final PasswordEncoder passwordEncoder;
+    private ClientRepository clientRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public Client save(ClientRequest request) {
+    public Client save(ClientRequest request) throws IOException {
+
+        if(Objects.equals(request.getImage(), null)) {
+            byte[] array = Files.readAllBytes(Paths.get("src/main/resources/static/images/image-placeholder.png"));
+            Binary defaultImage = new Binary(BsonBinarySubType.BINARY, array);
+            request.setImage(defaultImage);
+        }
         return clientRepository.save(ClientMapper.toClient(request));
     }
 
@@ -47,7 +56,7 @@ public class ClientService {
 
         Binary image = request.getImage() == null ? currentClient.getImage() : request.getImage();
 
-        Client newClient = ClientMapper.toClient((request));
+        Client newClient = ClientMapper.toClient(request);
         newClient.setId(id);
         newClient.setImage(image);
 

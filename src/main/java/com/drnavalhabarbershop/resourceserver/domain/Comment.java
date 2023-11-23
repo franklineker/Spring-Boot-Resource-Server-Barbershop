@@ -8,25 +8,21 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "appointments")
-public class Appointment {
+@NoArgsConstructor
+@Builder
+@Document(collection = "comments")
+public class Comment {
 
     @Id
     private String id;
 
     @CreatedDate()
     private LocalDateTime createdDate;
-    private Barber barber;
     private Client client;
-    private Order order;
-    private Date date;
+    private String content;
 
 }

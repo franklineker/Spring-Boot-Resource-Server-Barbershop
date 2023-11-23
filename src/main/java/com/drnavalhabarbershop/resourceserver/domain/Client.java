@@ -25,7 +25,6 @@ public class Client {
 
     @CreatedDate()
     private LocalDateTime createdDate;
-    @Convert()
     private UserType userType;
     private Binary image;
     private Person person;

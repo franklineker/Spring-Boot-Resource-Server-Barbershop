@@ -31,7 +31,7 @@ public class OrderController {
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public Order createOrder(@Valid @RequestBody OrderRequest request) {
+    public Order createOrder(@Valid @RequestBody OrderRequest request) throws IOException {
 
         return orderService.save(request);
     }

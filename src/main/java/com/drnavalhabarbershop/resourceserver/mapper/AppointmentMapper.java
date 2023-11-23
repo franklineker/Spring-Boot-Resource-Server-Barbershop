@@ -6,40 +6,28 @@ import com.drnavalhabarbershop.resourceserver.web.dto.AppointmentRequest;
 import com.drnavalhabarbershop.resourceserver.web.dto.AppointmentResponse;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 public class AppointmentMapper {
-
     public static Appointment toAppointment(AppointmentRequest request) {
-
         return request != null ? Appointment
                 .builder()
 //                .order(request.getOrder())
 //                .client(request.getClient())
 //                .barber(request.getBarber())
-//                .date(request.getDate())
-                .clientID(request.getClientID())
-                .clientName(request.getClientName())
-                .barberID(request.getBarberID())
-                .barberName(request.getBarberName())
-                .orderID(request.getOrderID())
-                .orderTitle(request.getOrderTitle())
                 .date(request.getDate())
-                .hour(request.getHour())
+                .createdDate(LocalDateTime.now())
                 .build() : null;
     }
 
     public static AppointmentResponse toAppointmentResponse(Appointment appointment) {
 
         return AppointmentResponse.builder()
-//                .client(appointment.getClient())
-//                .order(appointment.getOrder())
-//                .barber(appointment.getBarber())
-//                .date(appointment.getDate())
-                .clientName(appointment.getClientName())
-                .barberName(appointment.getBarberName())
-                .orderTitle(appointment.getOrderTitle())
+                .client(appointment.getClient())
+                .order(appointment.getOrder())
+                .barber(appointment.getBarber())
                 .date(appointment.getDate())
-                .hour(appointment.getHour())
                 .build();
     }
 }

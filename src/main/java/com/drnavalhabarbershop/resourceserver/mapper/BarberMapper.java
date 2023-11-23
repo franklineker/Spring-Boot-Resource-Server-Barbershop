@@ -2,17 +2,23 @@ package com.drnavalhabarbershop.resourceserver.mapper;
 
 import br.com.drnavalha.enums.UserType;
 import com.drnavalhabarbershop.resourceserver.domain.Barber;
+import com.drnavalhabarbershop.resourceserver.exceptions.EmailChangeNotAllowedException;
+import com.drnavalhabarbershop.resourceserver.service.BarberService;
 import com.drnavalhabarbershop.resourceserver.web.dto.BarberRequest;
 import com.drnavalhabarbershop.resourceserver.web.dto.BarberResponse;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @NoArgsConstructor
 public class BarberMapper {
 
     public static Barber toBarber(BarberRequest request) {
+
         return request != null ? Barber
                 .builder()
                 .userType(UserType.ofCode(request.getUserType()))
