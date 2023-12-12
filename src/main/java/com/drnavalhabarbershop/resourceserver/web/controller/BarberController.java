@@ -1,10 +1,14 @@
 package com.drnavalhabarbershop.resourceserver.web.controller;
 
 import com.drnavalhabarbershop.resourceserver.domain.Barber;
+import com.drnavalhabarbershop.resourceserver.domain.Client;
+import com.drnavalhabarbershop.resourceserver.domain.RatingEntry;
 import com.drnavalhabarbershop.resourceserver.mapper.BarberMapper;
 import com.drnavalhabarbershop.resourceserver.service.BarberService;
+import com.drnavalhabarbershop.resourceserver.service.ClientService;
 import com.drnavalhabarbershop.resourceserver.web.dto.BarberRequest;
 import com.drnavalhabarbershop.resourceserver.web.dto.BarberResponse;
+import com.drnavalhabarbershop.resourceserver.web.dto.RateBarberRequest;
 import jakarta.validation.Valid;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
@@ -27,6 +31,8 @@ public class BarberController {
 
     @Autowired
     private BarberService barberService;
+    @Autowired
+    private ClientService clientService;
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -46,10 +52,6 @@ public class BarberController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public List<Barber> findBarbers(){
-        System.out.println(System.getenv("DATA_SOURCE_USERNAME"));
-        System.out.println(System.getenv("DATA_SOURCE_PASSWORD"));
-        System.out.println(System.getenv("DATA_SOURCE_URL"));
-        System.out.println(System.getenv("DATA_SOURCE_DBNAME"));
         return barberService.findAll();
     }
 
@@ -58,6 +60,16 @@ public class BarberController {
     public Barber updateBarber(@Valid @PathVariable String id,
                                 @Valid @RequestBody BarberRequest request) throws Exception {
         return barberService.update(id, request);
+    }
+
+    @PutMapping(value = "/rating/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Barber rateBarber(@Valid @PathVariable String id,
+                                @Valid @RequestBody RateBarberRequest request) throws Exception {
+        Client client = clientService.findClientById(request.getClientId());
+        RatingEntry ratingEntry = new RatingEntry(client, request.getRating());
+
+        return barberService.rateBarber(id, ratingEntry);
     }
     @PutMapping(value = "/updatePicture/{id}")
     @ResponseStatus(value = HttpStatus.OK)

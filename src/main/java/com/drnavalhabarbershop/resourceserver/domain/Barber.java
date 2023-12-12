@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,7 +25,8 @@ public class Barber{
 
     private UserType userType;
     private String about;
-    private Double rating;
+    private List<RatingEntry> ratingsArray;
+    private double currentRating;
     private Person person;
     private Binary profilePicture;
     @CreatedDate()

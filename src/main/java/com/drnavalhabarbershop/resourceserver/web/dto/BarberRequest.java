@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.Binary;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,6 +23,5 @@ public class BarberRequest {
     private Integer userType;
     private String about;
     private Person person;
-    private Double rating;
     private Binary profilePicture;
 }

@@ -28,7 +28,8 @@ public class ResourceServerConfig {
                 "/clients/**",
                 "/chairs/**",
                 "/appointments/**",
-                "/comments/**"
+                "/comments/**",
+                "/home/**"
         ));
         return http
                 .authorizeHttpRequests(authorization -> authorization
@@ -39,7 +40,8 @@ public class ResourceServerConfig {
                                 "/clients/**",
                                 "/chairs/**",
                                 "/appointments/**",
-                                "/comments/**"
+                                "/comments/**",
+                                "/home/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2

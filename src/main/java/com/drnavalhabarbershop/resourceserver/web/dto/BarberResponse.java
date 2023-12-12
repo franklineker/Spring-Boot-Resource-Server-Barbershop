@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import org.bson.types.Binary;
 
+import java.util.List;
+
 @Data
 @Builder
 public class BarberResponse {
 
     private String id;
     private Integer userType;
-    private Person person;
     private String about;
-    private Double rating;
+    private double currentRating;
+    private Person person;
     private Binary profilePicture;
 }
